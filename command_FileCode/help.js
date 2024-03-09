@@ -1,13 +1,12 @@
-function helperFun()
-{
+function helper() {
     console.log(`
     List of All Commands:-
-        1. node main.js tree "directoryPath
-        2. node main.js organizer "directoryPath
-        3. node main.js help
+        1. peppy tree "directoryPath"
+        2. peppy organizer "directoryPath"
+        3. peppy help
     `)
 }
 
 module.exports = {
-    helperFun:helperFun
-}
+    helperFun: helper
+};
