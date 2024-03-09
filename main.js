@@ -1,10 +1,10 @@
 let inputArr = process.argv.slice(2);
 let fs = require("fs");
 let path = require("path");
-const { types } = require("util");
+// const { types } = require("util");
 console.log(inputArr);
 
-utility ={
+let types ={
     media:["mp4","mkv"],
     archives:['zip','7z','rar','tar','gz','ar','iso','xz'],
     document:['docx','doc','pdf','xlsx','xls','odt','ods','odp','odg','odz','odf','txt','ps'],
@@ -41,7 +41,49 @@ switch(command)
 
 function treeFun(dirPath)
 {
+    
+    if(dirPath==undefined)
+    {
+       console.log("please input correct path");
+       return;
+    }
+    else  // 2. Create -> organizeFile -> direcotory
+    {
+        let doesexist = fs.existsSync(dirPath);
+        if(doesexist)
+        {
+             treeFunHelper(dirPath);
+        }
+        else
+        {
+             console.log("please input correct path");
+             return;
+        }
+    }
+}
+function treeFunHelper(dirPath,indent)
+{
+    //check is file or folder
+    let isFile = fs.lstatSync(dirPath).isFile();
 
+    if(isFile==true)
+    {
+      let fileName = path.basename(dirPath);
+      console.log(indent+ `|_____
+                           |`       + fileName   );
+    }
+    else  // print the folder and call recursive for otehr file
+    {
+        let dirName = path.basename(dirPath);
+        console.log(indent+ `|_____
+                             |`       + dirName);
+        let children = fs.readdirSync(dirPath);
+        for(let i=0;i<children.length;i++)
+        {
+            let childpath = path.join(dirPath,children[i]);
+            treeFunHelper(childpath,indent+"\t");
+        }
+    }
 }
 
 function organizeFun(dirPath)
@@ -139,5 +181,7 @@ function sendFiles(srcfilepathName,dest,FileCategory)
     let fileName = path.basename(srcfilepathName);
     let destFilePath = path.join(categoryPath,fileName);
     fs.copyFileSync(srcfilepathName,destFilePath); 
+    // fs.unlinkSync(srcfilepathName); this code of line will be delete that file which had copied
     console.log(fileName,"copied into", FileCategory);
 }
+
