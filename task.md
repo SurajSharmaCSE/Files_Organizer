@@ -1,6 +1,5 @@
 # ToDo
 [*] Help Function
 [*] Organizer Function
-[] Tree Function
-[] global
-[] 
+[*] Tree Function
+[*] global
